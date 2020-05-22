@@ -102,7 +102,7 @@ def error(update, context):
 def main():
     # will Create the Updater and pass it our bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
-    updater = Updater("1157717954:AAFnGp6nMNjm3haMVkYO_ZOvhbvgvYViWNM", use_context=True)
+    updater = Updater("TOKEN", use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
