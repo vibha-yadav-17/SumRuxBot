@@ -115,7 +115,7 @@ def main():
             INFO: [MessageHandler(Filters.regex('^(Need|Have)$'), info)],
 
             #PHOTO: [MessageHandler(Filters.photo, photo),
-             #       CommandHandler('skip', skip_photo)],
+             #  CommandHandler('skip', skip_photo)],
 
             LOCATION: [MessageHandler(Filters.text, location),
                        CommandHandler('skip', skip_location)],
@@ -136,7 +136,7 @@ def main():
     # Start the Bot
     updater.start_polling()
 
-#ctrl c for stopping the bot
+    #    ctrl c for stopping the bot
     # SIGTERM or SIGABRT. This should be used most of the time
     # start_polling() is non-blocking and will stop the bot.
     updater.idle()
