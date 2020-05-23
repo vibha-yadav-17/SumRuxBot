@@ -31,8 +31,7 @@ def start(update, context):
     reply_keyboard = [['Need', 'Have']]
 
     update.message.reply_text(
-        'Hi! Welcome to SumRuxBookExchange. I will hold a conversation with you. '
-        'Send /cancel to stop talking to me.\n\n'
+        'Hi! Welcome to SumRuxBookExchange. I will hold a conversation with you.'
         'Do you need book or have book?',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
@@ -115,7 +114,7 @@ def main():
             INFO: [MessageHandler(Filters.regex('^(Need|Have)$'), info)],
 
             #PHOTO: [MessageHandler(Filters.photo, photo),
-             #  CommandHandler('skip', skip_photo)],
+             # CommandHandler('skip', skip_photo)],
 
             LOCATION: [MessageHandler(Filters.text, location),
                        CommandHandler('skip', skip_location)],
@@ -136,7 +135,7 @@ def main():
     # Start the Bot
     updater.start_polling()
 
-    #    ctrl c for stopping the bot
+    #    press ctrl c for stopping the bot 
     # SIGTERM or SIGABRT. This should be used most of the time
     # start_polling() is non-blocking and will stop the bot.
     updater.idle()
