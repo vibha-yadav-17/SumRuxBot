@@ -30,13 +30,13 @@ INFO, LOCATION, BIO, CLASSNAMES = range(4)
 def start(update, context):
 	update.message.from_user
 	logger.info("City of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text(
+	update.message.reply_text(
         'Hi! Welcome to SumRuxBookExchange. We at Sumrux identify people in the same pincode and exchange books.' 
         'We help create a community of readers who are physically proximate to each other.'
         'Which city do you live in?',
         reply_markup=ReplyKeyboardRemove())
 
-    return CITY
+	return CITY
 
 def pincode(update, context):
 	user=update.message.from_user
@@ -58,13 +58,13 @@ def standard(update, context):
 		'Which standard books are you looking for?',
 		 reply_markup=ReplyKeyboardRemove())
 
-    return STANDARD
+	return STANDARD
 
 def board(update, context):
 	user=update.message.from_user
 	logger.info("Books of Board %s: %s", user.first_name, update.message.text)
 	update.message.reply_text(
-		'Almost there. Do you have any specific board in mind?'
+		'Almost there. Do you have any specific board in mind?',
 		 reply_markup=ReplyKeyboardRemove())
 
 	return BOARD
@@ -74,17 +74,17 @@ def medium(update, context):
 
 	user=update.message.from_user
 	logger.info("Books of Medium %s: %s", user.first_name, update.message.text)
-    update.message.reply_text(
-    	'Do you want English Medium or Hindi Medium Books?'
-    	 reply_markup=ReplyKeyboardMakrup(reply_keyboard, one_time_keyboard=True))
+	update.message.reply_text(
+    	'Do you want English Medium or Hindi Medium Books?',
+    	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
-    return MEDIUM
+	return MEDIUM
 
 def subjects(update, context):
-    user=update.message.from_user
+	user=update.message.from_user
 	logger.info("Books of Subject %s: %s", user.first_name, update.message.text)
 	update.message.reply_text(
-		 'One last thing. Which subjects are you look for?'
+		 'One last thing. Which subjects are you look for?',
 		 reply_markup=ReplyKeyboardRemove())
 
 	return SUBJECTS
@@ -103,7 +103,7 @@ def email(update, context):
 def end(update,context):
 	user=update.message.from_user
 	logger.info("User %s ended the conversation.", user.first_name)
-	update.message.reply_text('I hope we are of help to you. Happy reading!'
+	update.message.reply_text('I hope we are of help to you. Happy reading!',
 		                       reply_markup=ReplyKeyboardRemove())
 
 	return ConversationHandler.END 
