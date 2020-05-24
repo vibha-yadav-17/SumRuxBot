@@ -28,60 +28,85 @@ INFO, LOCATION, BIO, CLASSNAMES = range(4)
 
 
 def start(update, context):
-    reply_keyboard = [['Need', 'Have']]
-
+	update.message.from_user
+	logger.info("City of %s: %s", user.first_name, update.message.text)
     update.message.reply_text(
-        'Hi! Welcome to SumRuxBookExchange. I will hold a conversation with you.'
-        'Do you need book or have book?',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+        'Hi! Welcome to SumRuxBookExchange. We at Sumrux identify people in the same pincode and exchange books.' 
+        'We help create a community of readers who are physically proximate to each other.'
+        'Which city do you live in?',
+        reply_markup=ReplyKeyboardRemove())
 
-    return INFO
+    return CITY
 
+def pincode(update, context):
+	user=update.message.from_user
+	logger.info("Pincode of %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Thankyou, you have made it easier for us to find you a match'
+		'We do need some more information to help you find a suitable bookmatch.'
+		'What is your pincode?',
+		reply_markup=ReplyKeyboardRemove())
 
-def info(update, context):
-    user = update.message.from_user
-    logger.info("Requirement of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('Please enter your location,'
-                              'or send /skip if you don\'t want to.',
-                              reply_markup=ReplyKeyboardRemove())
+	return PINCODE 
 
-    return LOCATION
+def standard(update, context):
+	user=update.message.from_user
+	logger.info("Books of Standard %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Thankyou for trusting us with your information.'
+		'We are on our way to connect you with other readers around you.'
+		'Which standard books are you looking for?',
+		 reply_markup=ReplyKeyboardRemove())
 
+    return STANDARD
 
+def board(update, context):
+	user=update.message.from_user
+	logger.info("Books of Board %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Almost there. Do you have any specific board in mind?'
+		 reply_markup=ReplyKeyboardRemove())
 
-def location(update, context):
-    user = update.message.from_user
-    user_location = update.message.location
-    logger.info("Location of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('Please enter your name!')
+	return BOARD
 
-    return BIO
+def medium(update, context):
+	reply_keyboard = [['English' , 'Hindi']]
 
+	user=update.message.from_user
+	logger.info("Books of Medium %s: %s", user.first_name, update.message.text)
+    update.message.reply_text(
+    	'Do you want English Medium or Hindi Medium Books?'
+    	 reply_markup=ReplyKeyboardMakrup(reply_keyboard, one_time_keyboard=True))
 
-def skip_location(update, context):
-    user = update.message.from_user
-    logger.info("User %s did not send a location.", user.first_name)
-    update.message.reply_text('You seem a bit paranoid! '
-    'At last, tell me something about yourself.')
+    return MEDIUM
 
-    return BIO
+def subjects(update, context):
+    user=update.message.from_user
+	logger.info("Books of Subject %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		 'One last thing. Which subjects are you look for?'
+		 reply_markup=ReplyKeyboardRemove())
 
+	return SUBJECTS
 
-def bio(update, context):
-    user = update.message.from_user
-    logger.info("Bio of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('Thank you! What class/standard book do you want?')
+def email(update, context):
+	user=update.message.from_user
+	logger.info("Email of %s; %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'We are glad you are trusting us with your information'
+		'If you could give us your email ID, it would help us send you the relevant information'
+		'What is your email?', 
+		reply_markup=ReplyKeyboardRemove())
 
-    return CLASSNAMES
+	return EMAIL 
 
-def classnames(update, context):
-    user = update.message.from_user
-    logger.info("Classname of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('Thank you! I hope we can talk again.')
+def end(update,context):
+	user=update.message.from_user
+	logger.info("User %s ended the conversation.", user.first_name)
+	update.message.reply_text('I hope we are of help to you. Happy reading!'
+		                       reply_markup=ReplyKeyboardRemove())
 
-
-
-    return ConversationHandler.END
+	return ConversationHandler.END 
 
 
 def cancel(update, context):
