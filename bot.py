@@ -24,11 +24,11 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-INFO, LOCATION, BIO, CLASSNAMES = range(4)
+START, PINCODE, STANDARD, BOARD, MEDIUM, SUBJECTS, EMAIL = range(7)
 
 
 def start(update, context):
-	update.message.from_user
+	user=update.message.from_user
 	logger.info("City of %s: %s", user.first_name, update.message.text)
 	update.message.reply_text(
         'Hi! Welcome to SumRuxBookExchange. We at Sumrux identify people in the same pincode and exchange books.' 
@@ -36,7 +36,7 @@ def start(update, context):
         'Which city do you live in?',
         reply_markup=ReplyKeyboardRemove())
 
-	return CITY
+	return PINCODE
 
 def pincode(update, context):
 	user=update.message.from_user
@@ -47,7 +47,7 @@ def pincode(update, context):
 		'What is your pincode?',
 		reply_markup=ReplyKeyboardRemove())
 
-	return PINCODE 
+	return STANDARD 
 
 def standard(update, context):
 	user=update.message.from_user
@@ -58,7 +58,7 @@ def standard(update, context):
 		'Which standard books are you looking for?',
 		 reply_markup=ReplyKeyboardRemove())
 
-	return STANDARD
+	return BOARD
 
 def board(update, context):
 	user=update.message.from_user
@@ -67,7 +67,7 @@ def board(update, context):
 		'Almost there. Do you have any specific board in mind?',
 		 reply_markup=ReplyKeyboardRemove())
 
-	return BOARD
+	return MEDIUM
 
 def medium(update, context):
 	reply_keyboard = [['English' , 'Hindi']]
@@ -78,7 +78,7 @@ def medium(update, context):
     	'Do you want English Medium or Hindi Medium Books?',
     	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
-	return MEDIUM
+	return SUBJECTS
 
 def subjects(update, context):
 	user=update.message.from_user
@@ -87,18 +87,18 @@ def subjects(update, context):
 		 'One last thing. Which subjects are you look for?',
 		 reply_markup=ReplyKeyboardRemove())
 
-	return SUBJECTS
+	return EMAIL
 
 def email(update, context):
 	user=update.message.from_user
-	logger.info("Email of %s; %s", user.first_name, update.message.text)
+	logger.info("Email of %s: %s", user.first_name, update.message.text)
 	update.message.reply_text(
 		'We are glad you are trusting us with your information'
 		'If you could give us your email ID, it would help us send you the relevant information'
 		'What is your email?', 
 		reply_markup=ReplyKeyboardRemove())
 
-	return EMAIL 
+	return ConversationHandler.END 
 
 def end(update,context):
 	user=update.message.from_user
@@ -126,7 +126,7 @@ def error(update, context):
 def main():
     # will Create the Updater and pass it our bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
-    updater = Updater("TOKEN", use_context=True)
+    updater = Updater("1099113463:AAHBgI02WQbWvBqHQQVc-NBXI_MXLGIWBBA", use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -136,17 +136,21 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-            INFO: [MessageHandler(Filters.regex('^(Need|Have)$'), info)],
+ 			PINCODE: [MessageHandler(Filters.text, pincode)],
 
             #PHOTO: [MessageHandler(Filters.photo, photo),
              # CommandHandler('skip', skip_photo)],
 
-            LOCATION: [MessageHandler(Filters.text, location),
-                       CommandHandler('skip', skip_location)],
+            STANDARD: [MessageHandler(Filters.text, standard)],
 
-            BIO: [MessageHandler(Filters.text, bio)],
+            BOARD: [MessageHandler(Filters.text, board)],
 
-            CLASSNAMES:[MessageHandler(Filters.text, classnames)],
+            MEDIUM:[MessageHandler(Filters.text, medium)],
+
+            SUBJECTS: [MessageHandler(Filters.text, subjects)],
+
+            EMAIL: [MessageHandler(Filters.text, email)],
+
         },
 
         fallbacks=[CommandHandler('cancel', cancel)]
