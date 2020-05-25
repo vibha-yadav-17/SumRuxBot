@@ -48,16 +48,6 @@ def start(update, context):
 
     return CITY
 
-
-"""def locality(update, context):
-	user=update.message.from_user
-	logger.info("locality of%s: %s", user.first_name, update.message.text)
-	update.message.reply_text(
-        'What is your city',
-        reply_markup=ReplyKeyboardRemove())
-
-	return CITY"""
-
 def city(update, context):
 	user=update.message.from_user
 	logger.info("locality of%s: %s", user.first_name, update.message.text)
@@ -166,7 +156,7 @@ def error(update, context):
 def main():
     # will Create the Updater and pass it our bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
-    updater = Updater("1081133046:AAHOOqRbAC7L-QuJoDP6btiIQ2qHnXcX8_0", use_context=True)
+    updater = Updater("TOKEN", use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
