@@ -24,7 +24,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-START, LOCALITY,CITY,PINCODE, REQ, BOARD, MEDIUM, SUBJECTS, NUMBER, EMAIL, END = range(11)
+START, LOCALITY,CITY,PINCODE, REQ, STANDARD, BOARD, MEDIUM, SUBJECTS, NUMBER, EMAIL, END = range(12)
 
 
 """def start(update, context):
@@ -77,6 +77,16 @@ def req(update, context):
     	'Do you need book or have book?',
     	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))	
 
+	return STANDARD 
+
+def standard (update, context):
+	user=update.message.from_user
+	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Books of which standard?',
+		reply_markup=ReplyKeyboardRemove())
+
+	
 	return BOARD
 
 
@@ -93,7 +103,7 @@ def medium(update, context):
 	reply_keyboard = [['English' , 'Hindi']]
 
 	user=update.message.from_user
-	logger.info("Books of Board %s: %s, Books of Standard %s: %S", user.first_name, update.message.text)
+	logger.info("Books of Board: %s, Books of Standard: %S", user.first_name, update.message.text)
 	update.message.reply_text(
     	'Do you want English Medium or Hindi Medium Books?',
     	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -174,6 +184,8 @@ def main():
              # CommandHandler('skip', skip_photo)],
             PINCODE: [MessageHandler(Filters.text, pincode)],
               REQ: [MessageHandler(Filters.text, req)],
+
+              STANDARD: [MessageHandler(Filters.text, req)],
 
             BOARD: [MessageHandler(Filters.text, board)],
           
