@@ -95,6 +95,26 @@ def board(update, context):
 	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
 	update.message.reply_text(
 		'Almost there. Can you tell us the board and standard of the books?',
+    	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+
+	return STANDARD
+
+def standard(update, context):
+	user=update.message.from_user
+	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Thankyou for trusting us with your information.'
+		'We are on our way to connect you with other readers around you.'
+		'Which standard books are you looking for/Have?',
+		 reply_markup=ReplyKeyboardRemove())
+
+	return BOARD
+
+def board(update, context):
+	user=update.message.from_user
+	logger.info("Books of standard %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Almost there. Do you have any specific board in mind(CBS/ICSE etc.)?',
 		 reply_markup=ReplyKeyboardRemove())
 
 	return MEDIUM
@@ -103,7 +123,10 @@ def medium(update, context):
 	reply_keyboard = [['English' , 'Hindi']]
 
 	user=update.message.from_user
+
 	logger.info("Books of Board: %s, Books of Standard: %S", user.first_name, update.message.text)
+	logger.info("Books of Board %s: %s", user.first_name, update.message.text)
+
 	update.message.reply_text(
     	'Do you want English Medium or Hindi Medium Books?',
     	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -116,7 +139,6 @@ def subjects(update, context):
 	update.message.reply_text(
 		 'One last thing. Which subjects are you looking for?',
 		 reply_markup=ReplyKeyboardRemove())
-
 	return NUMBER
 
 def number (update,context):
@@ -125,6 +147,7 @@ def number (update,context):
 	update.message.reply_text(
 		'Could you please share with us your phone number?',
 		reply_markup=ReplyKeyboardRemove())
+
 
 	return EMAIL
 
@@ -165,7 +188,10 @@ def error(update, context):
 def main():
     # will Create the Updater and pass it our bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
-    updater = Updater("1099113463:AAHBgI02WQbWvBqHQQVc-NBXI_MXLGIWBBA", use_context=True)
+
+  
+    updater = Updater("TOKEN", use_context=True)
+
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -185,7 +211,8 @@ def main():
             PINCODE: [MessageHandler(Filters.text, pincode)],
               REQ: [MessageHandler(Filters.text, req)],
 
-              STANDARD: [MessageHandler(Filters.text, req)],
+           
+            STANDARD: [MessageHandler(Filters.text, standard)],
 
             BOARD: [MessageHandler(Filters.text, board)],
           
