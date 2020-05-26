@@ -24,7 +24,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-START, LOCALITY,CITY,PINCODE, REQ, STANDARD, BOARD, MEDIUM, SUBJECTS, NUMBER, EMAIL, END = range(12)
+START, LOCALITY,CITY,PINCODE, REQ, STANDARD, BOARD, MEDIUM, SUBJECTS, NUMBER, EMAIL, CONFIRM, END = range(13)
 
 
 """def start(update, context):
@@ -79,26 +79,6 @@ def req(update, context):
 
 	return STANDARD 
 
-def standard (update, context):
-	user=update.message.from_user
-	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
-	update.message.reply_text(
-		'Books of which standard?',
-		reply_markup=ReplyKeyboardRemove())
-
-	
-	return BOARD
-
-
-def board(update, context):
-	user=update.message.from_user
-	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
-	update.message.reply_text(
-		'Almost there. Can you tell us the board and standard of the books?',
-    	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-
-	return STANDARD
-
 def standard(update, context):
 	user=update.message.from_user
 	logger.info("Requirement of %s: %s", user.first_name, update.message.text)
@@ -123,10 +103,7 @@ def medium(update, context):
 	reply_keyboard = [['English' , 'Hindi']]
 
 	user=update.message.from_user
-
-	logger.info("Books of Board: %s, Books of Standard: %S", user.first_name, update.message.text)
 	logger.info("Books of Board %s: %s", user.first_name, update.message.text)
-
 	update.message.reply_text(
     	'Do you want English Medium or Hindi Medium Books?',
     	 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -139,6 +116,7 @@ def subjects(update, context):
 	update.message.reply_text(
 		 'One last thing. Which subjects are you looking for?',
 		 reply_markup=ReplyKeyboardRemove())
+
 	return NUMBER
 
 def number (update,context):
@@ -160,11 +138,22 @@ def email(update, context):
 		'What is your email?', 
 		reply_markup=ReplyKeyboardRemove())
 
+	return CONFIRM
+
+def confirm (update, context):
+	reply_keyboard = [['Yes' , 'No']]
+
+	user=update.message.from_user
+	logger.info("Email of %s: %s", user.first_name, update.message.text)
+	update.message.reply_text(
+		'Thankyou for all your help. Please press yes to confirm your details.',
+		reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+
 	return END
 
 def end(update,context):
 	user=update.message.from_user
-	logger.info("Email of%s: %s", user.first_name,update.message.text)
+	logger.info("Confirmation of%s: %s", user.first_name,update.message.text)
 	update.message.reply_text('I hope we are of help to you. Happy reading!',
 		                       reply_markup=ReplyKeyboardRemove())
 
@@ -190,7 +179,7 @@ def main():
     # Make sure to set use_context=True to use the new context based callbacks
 
   
-    updater = Updater("TOKEN", use_context=True)
+    updater = Updater("1099113463:AAHBgI02WQbWvBqHQQVc-NBXI_MXLGIWBBA", use_context=True)
 
 
     # Get the dispatcher to register handlers
@@ -224,6 +213,9 @@ def main():
             NUMBER: [MessageHandler(Filters.text, number)],
 
             EMAIL: [MessageHandler(Filters.text, email)],
+
+            CONFIRM: [MessageHandler(Filters.text, confirm)],
+            
             END: [MessageHandler(Filters.text,end)]
 
         },
